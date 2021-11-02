@@ -3,6 +3,8 @@
 namespace Nicolasalexandre9\LaravelAppSchema;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use Nicolasalexandre9\LaravelAppSchema\Providers\EventServiceProvider;
 
 /**
  * Class LaravelAppSchemaServiceProvider
@@ -21,7 +23,7 @@ class LaravelAppSchemaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->register(EventServiceProvider::class);
     }
 
     /**
