@@ -18,11 +18,40 @@ use Symfony\Component\Finder\SplFileInfo;
 class AppSchema
 {
     /**
+     * @var string
+     */
+    private string $directoryPath;
+
+    /**
+     * @var string
+     */
+    private string $filePath;
+
+    /**
      * AppSchema construct
      */
     public function __construct()
     {
-        //
+        $this->directoryPath = app_path();
+        $this->filePath = base_path('.forestadmin-schema.json');
+    }
+
+    /**
+     * @return void
+     * @throws \ReflectionException
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function createSchema(): void
+    {
+        $models = $this->getModels();
+        $schema = collect();
+        foreach ($models as $model) {
+            $reflection = new \ReflectionClass($model);
+            $modelSchema = new ModelSchema(app($model));
+            $schema->put($reflection->getShortName(), $modelSchema->createSchema()->getSchema());
+        }
+
+        File::put($this->filePath, $schema->toJson(JSON_PRETTY_PRINT));
     }
 
     /**
@@ -32,7 +61,7 @@ class AppSchema
      */
     public function getModels(): Collection
     {
-        $models = collect(File::allFiles(app_path('Models')))
+        $models = collect(File::allFiles($this->directoryPath))
             ->map(fn (SplFileInfo $file) => self::extractNamespace(file_get_contents($file->getRealPath())))
             ->filter(fn ($class) => self::isModel($class));
 

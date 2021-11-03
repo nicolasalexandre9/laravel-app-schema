@@ -30,11 +30,12 @@ class ServerStart
      *
      * @param \Illuminate\Console\Events\CommandStarting $event
      * @return void
+     * @throws \ReflectionException
      */
     public function handle(CommandStarting $event)
     {
         if ($event->command === 'serve') {
-            $appSchema = new AppSchema();
+            (new AppSchema())->createSchema();
         }
     }
 }
