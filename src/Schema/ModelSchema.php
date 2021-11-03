@@ -3,7 +3,10 @@
 namespace Nicolasalexandre9\LaravelAppSchema\Schema;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
+use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * Class ModelSchema
@@ -42,6 +45,7 @@ class ModelSchema
     {
         $this->schema->put('class', get_class($this->model));
         $this->schema->put('attributes', $this->getAttributes());
+        $this->schema->put('relationships', $this->getRelationships());
 
         return $this;
     }
@@ -71,6 +75,41 @@ class ModelSchema
         }
 
         return $attributes;
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     * @throws \ReflectionException
+     */
+    private function getRelationships(): Collection
+    {
+        $relationships = collect();
+        $methods = (new ReflectionClass($this->model))->getMethods(ReflectionMethod::IS_PUBLIC);
+        foreach ($methods as $method) {
+            if ($method->class !== get_class($this->model) ||
+                !empty($method->getParameters())
+            ) {
+                continue;
+            }
+
+            $returnType = $method->getReturnType();
+            if ($returnType && $returnType->getName() && class_exists($returnType->getName())) {
+                $reflection = new \ReflectionClass($returnType->getName());
+                $return = $method->invoke($this->model);
+                if ($reflection->isSubclassOf(Relation::class)) {
+                    $relationships->push(
+                        [
+                            'type'    => $reflection->getShortName(),
+                            'methode' => $method->getName(),
+                            'class'   => (new ReflectionClass($return->getRelated()))->getName(),
+                        ]
+                    );
+                }
+            }
+
+        }
+
+        return $relationships;
     }
 
 
