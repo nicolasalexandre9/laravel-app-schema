@@ -3,7 +3,6 @@
 namespace Nicolasalexandre9\LaravelAppSchema;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Nicolasalexandre9\LaravelAppSchema\Providers\EventServiceProvider;
 
 /**
@@ -24,6 +23,8 @@ class LaravelAppSchemaServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(EventServiceProvider::class);
+
+        $this->mergeConfigFrom(__DIR__ . '/../config/schema.php', 'schema');
     }
 
     /**
@@ -33,6 +34,6 @@ class LaravelAppSchemaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->publishes([__DIR__ . '/../config/schema.php' => config_path('schema.php')], 'config');
     }
 }
