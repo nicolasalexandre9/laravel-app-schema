@@ -3,6 +3,7 @@
 namespace Nicolasalexandre9\LaravelAppSchema\Listeners;
 
 use Illuminate\Console\Events\CommandStarting;
+use Nicolasalexandre9\LaravelAppSchema\Schema\AppSchema;
 
 /**
  * Class ServerStart
@@ -33,7 +34,7 @@ class ServerStart
     public function handle(CommandStarting $event)
     {
         if ($event->command === 'serve') {
-            // TODO call class for create schema
+            $appSchema = new AppSchema();
         }
     }
 }
