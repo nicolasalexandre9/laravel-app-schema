@@ -32,8 +32,8 @@ class AppSchema
      */
     public function __construct()
     {
-        $this->directoryPath = app_path();
-        $this->filePath = base_path('.forestadmin-schema.json');
+        $this->directoryPath = config('schema.models_directory_path');
+        $this->filePath = config('schema.schema_file_path');
     }
 
     /**
