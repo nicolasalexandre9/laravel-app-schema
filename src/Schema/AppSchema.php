@@ -46,9 +46,8 @@ class AppSchema
         $models = $this->getModels();
         $schema = collect();
         foreach ($models as $model) {
-            $reflection = new \ReflectionClass($model);
             $modelSchema = new ModelSchema(app($model));
-            $schema->put($reflection->getShortName(), $modelSchema->createSchema()->getSchema());
+            $schema->push($modelSchema->createSchema()->getSchema());
         }
 
         File::put($this->filePath, $schema->toJson(JSON_PRETTY_PRINT));
