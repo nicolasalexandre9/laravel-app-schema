@@ -11,11 +11,16 @@
     "require": {
         "php": "^7.4|^8.0",
         "laravel/framework": "^8.0",
-        "doctrine/dbal": "3.1.1"
+        "doctrine/dbal": "^3.1.1"
     },
     "autoload": {
         "psr-4": {
             "Nicolasalexandre9\\LaravelAppSchema\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nicolasalexandre9\\LaravelAppSchema\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -25,5 +30,12 @@
             ]
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "9.5.10"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
 }
