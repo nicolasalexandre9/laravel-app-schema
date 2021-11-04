@@ -49,9 +49,9 @@ class AppSchemaTest extends TestCase
         $result = $appSchema->getModels();
 
         $this->assertInstanceOf(Collection::class, $result);
-        $this->assertTrue($result->contains(get_class((new post()))));
-        $this->assertTrue($result->contains(get_class((new category()))));
-        $this->assertTrue($result->contains(get_class((new comment()))));
+        $this->assertTrue($result->contains(get_class((new Post()))));
+        $this->assertTrue($result->contains(get_class((new Category()))));
+        $this->assertTrue($result->contains(get_class((new Comment()))));
     }
 
     /**
