@@ -1,4 +1,4 @@
 /vendor/
 .idea/
-/tests/tmp
+/tests/tmp/*
 .phpunit.result.cache

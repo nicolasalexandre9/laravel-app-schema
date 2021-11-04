@@ -31,6 +31,16 @@ class AppSchemaTest extends TestCase
     /**
      * @return void
      */
+    public function test_is_model_not_valid(): void
+    {
+        $result = AppSchema::isModel(ClassNotExist::class);
+
+        $this->assertFalse($result);
+    }
+
+    /**
+     * @return void
+     */
     public function test_extract_class_valid(): void
     {
         $post = new Post();
