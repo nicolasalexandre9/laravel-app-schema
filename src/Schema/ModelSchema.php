@@ -44,6 +44,7 @@ class ModelSchema
     public function createSchema(): self
     {
         $this->schema->put('class', get_class($this->model));
+        $this->schema->put('table', $this->model->getTable());
         $this->schema->put('attributes', $this->getAttributes());
         $this->schema->put('relationships', $this->getRelationships());
 
@@ -106,7 +107,6 @@ class ModelSchema
                     );
                 }
             }
-
         }
 
         return $relationships;
