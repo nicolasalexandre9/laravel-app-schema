@@ -95,8 +95,8 @@ class ModelSchema
             $returnType = $method->getReturnType();
             if ($returnType && $returnType->getName() && class_exists($returnType->getName())) {
                 $reflection = new \ReflectionClass($returnType->getName());
-                $return = $method->invoke($this->model);
                 if ($reflection->isSubclassOf(Relation::class)) {
+                    $return = $method->invoke($this->model);
                     $relationships->push(
                         [
                             'type'    => $reflection->getShortName(),
