@@ -55,7 +55,7 @@ class ModelSchema
      * @return Collection
      * @throws \Doctrine\DBAL\Exception
      */
-    private function getAttributes(): Collection
+    public function getAttributes(): Collection
     {
         $attributes = collect();
         $columns = $this->model
@@ -82,7 +82,7 @@ class ModelSchema
      * @return \Illuminate\Support\Collection
      * @throws \ReflectionException
      */
-    private function getRelationships(): Collection
+    public function getRelationships(): Collection
     {
         $relationships = collect();
         $methods = (new ReflectionClass($this->model))->getMethods(ReflectionMethod::IS_PUBLIC);
@@ -101,7 +101,7 @@ class ModelSchema
                     $relationships->push(
                         [
                             'type'    => $reflection->getShortName(),
-                            'methode' => $method->getName(),
+                            'method' => $method->getName(),
                             'class'   => (new ReflectionClass($return->getRelated()))->getName(),
                         ]
                     );
