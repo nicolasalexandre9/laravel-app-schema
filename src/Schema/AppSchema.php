@@ -61,7 +61,7 @@ class AppSchema
     public function getModels(): Collection
     {
         $models = collect(File::allFiles($this->directoryPath))
-            ->map(fn (SplFileInfo $file) => self::extractNamespace(file_get_contents($file->getRealPath())))
+            ->map(fn (SplFileInfo $file) => self::extractClass(file_get_contents($file->getRealPath())))
             ->filter(fn ($class) => self::isModel($class));
 
         return $models->values();
@@ -71,7 +71,7 @@ class AppSchema
      * @param string $content
      * @return string
      */
-    private static function extractNamespace(string $content): string
+    public static function extractClass(string $content): string
     {
         $tokens = token_get_all($content);
         $namespace = '';
@@ -101,7 +101,7 @@ class AppSchema
      * @param $class
      * @return bool
      */
-    private static function isModel($class): bool
+    public static function isModel($class): bool
     {
         if (class_exists($class)) {
             $reflection = new \ReflectionClass($class);
