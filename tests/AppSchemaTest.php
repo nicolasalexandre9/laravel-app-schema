@@ -33,7 +33,7 @@ class AppSchemaTest extends TestCase
      */
     public function test_is_model_not_valid(): void
     {
-        $result = AppSchema::isModel(ClassNotExist::class);
+        $result = AppSchema::isModel('fake_class');
 
         $this->assertFalse($result);
     }

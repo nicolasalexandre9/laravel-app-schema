@@ -98,10 +98,10 @@ class AppSchema
     }
 
     /**
-     * @param $class
+     * @param string $class
      * @return bool
      */
-    public static function isModel($class): bool
+    public static function isModel(string $class): bool
     {
         if (class_exists($class)) {
             $reflection = new \ReflectionClass($class);
